@@ -1,0 +1,1 @@
+document.addEventListener('DOMContentLoaded',()=>{document.getElementById('ai-config')?.addEventListener('click',()=>{alert('Configuration IA : prochaine étape — connexion du moteur Qwen.');});});
