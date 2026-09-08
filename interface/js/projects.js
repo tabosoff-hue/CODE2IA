@@ -1,0 +1,1 @@
+document.addEventListener('DOMContentLoaded',()=>{const list=document.getElementById('project-list');const projects=JSON.parse(localStorage.getItem('code2ia-projects')||'[]');if(projects.length){list.innerHTML='<h2>Projets récents</h2>'+projects.map(p=>'<div class="file-row">◇ '+p.name+'</div>').join('');}});
