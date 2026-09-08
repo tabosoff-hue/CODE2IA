@@ -1,0 +1,1 @@
+document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('.panel').forEach(card=>card.addEventListener('click',()=>{const name=card.querySelector('h2')?.textContent;if(name){localStorage.setItem('code2ia-template',name);window.location.href='new-project.html';}}));});
