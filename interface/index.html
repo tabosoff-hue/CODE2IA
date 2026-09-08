@@ -10,13 +10,13 @@
   <div class="app-shell">
     <aside class="sidebar">
       <div class="brand"><span class="brand-mark">✦</span><span>CODE2IA</span></div>
-      <button class="new-project" data-i18n="newProject">＋ Nouveau projet</button>
+      <button class="new-project" data-action="new-project" data-i18n="newProject">＋ Nouveau projet</button>
       <nav>
         <p class="nav-label" data-i18n="workspace">WORKSPACE</p>
-        <a class="nav-item active" href="#">⌂ <span data-i18n="home">Accueil</span></a>
-        <a class="nav-item" href="#">▣ <span data-i18n="projects">Projets</span></a>
-        <a class="nav-item" href="#">◈ <span data-i18n="templates">Templates</span></a>
-        <a class="nav-item" href="#">⚙ <span data-i18n="settings">Paramètres</span></a>
+        <a class="nav-item active" href="pages/home.html" data-page="home">⌂ <span data-i18n="home">Accueil</span></a>
+        <a class="nav-item" href="pages/projects.html" data-page="projects">▣ <span data-i18n="projects">Projets</span></a>
+        <a class="nav-item" href="pages/templates.html" data-page="templates">◈ <span data-i18n="templates">Templates</span></a>
+        <a class="nav-item" href="pages/settings.html" data-page="settings">⚙ <span data-i18n="settings">Paramètres</span></a>
       </nav>
       <div class="sidebar-bottom">
         <div class="language-control">🌐 <select id="language-select" aria-label="Language"></select></div>
@@ -63,84 +63,8 @@
       </section>
     </main>
   </div>
-
-  <script>
-    const messages = document.getElementById('messages');
-    const promptInput = document.getElementById('prompt-input');
-
-    function addMessage(text, type) {
-      const box = document.createElement('div');
-      box.className = 'message ' + (type === 'user' ? 'user-message' : 'ai');
-      if (type === 'user') {
-        box.innerHTML = '<p></p>';
-        box.querySelector('p').textContent = text;
-      } else {
-        box.innerHTML = '<div class="mini-avatar">✦</div><div><strong>CODE2IA</strong><p></p></div>';
-        box.querySelector('p').textContent = text;
-      }
-      messages.appendChild(box);
-      messages.scrollTop = messages.scrollHeight;
-    }
-
-    document.getElementById('send-btn').addEventListener('click', () => {
-      const text = promptInput.value.trim();
-      if (!text) return;
-      addMessage(text, 'user');
-      promptInput.value = '';
-      setTimeout(() => addMessage('Je suis prêt à analyser ta demande. La connexion au moteur IA sera configurée à l’étape suivante.', 'ai'), 450);
-    });
-
-    promptInput.addEventListener('keydown', e => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        document.getElementById('send-btn').click();
-      }
-    });
-
-    document.getElementById('file-input').addEventListener('change', e => {
-      if (e.target.files[0]) addMessage('Fichier sélectionné : ' + e.target.files[0].name, 'user');
-    });
-
-    document.querySelector('.new-project').addEventListener('click', () => {
-      promptInput.value = '';
-      messages.innerHTML = '';
-      addMessage('Nouveau projet créé. Décris ce que tu veux construire.', 'ai');
-      document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
-      document.querySelector('.nav-item').classList.add('active');
-    });
-
-    document.querySelectorAll('.nav-item').forEach(item => item.addEventListener('click', e => {
-      e.preventDefault();
-      document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
-      item.classList.add('active');
-      const text = item.innerText.trim();
-      addMessage('Section « ' + text + ' » sélectionnée.', 'ai');
-    }));
-
-    document.getElementById('theme-btn').addEventListener('click', () => {
-      document.body.classList.toggle('light-mode');
-      localStorage.setItem('code2ia-theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
-    });
-    if (localStorage.getItem('code2ia-theme') === 'light') document.body.classList.add('light-mode');
-
-    document.getElementById('search-btn').addEventListener('click', () => {
-      promptInput.focus();
-      promptInput.placeholder = 'Recherche / décris ton idée...';
-    });
-
-    document.getElementById('run-btn').addEventListener('click', () => {
-      addMessage('▶ Aperçu lancé. Le moteur de génération sera connecté dans la configuration IA.', 'ai');
-    });
-
-    document.getElementById('start-btn').addEventListener('click', () => {
-      document.querySelector('.preview-screen').scrollIntoView({behavior:'smooth', block:'center'});
-      addMessage('Aperçu de l’application lancé.', 'ai');
-    });
-
-    document.getElementById('explore-btn').addEventListener('click', () => {
-      addMessage('Exploration de l’aperçu ouverte.', 'ai');
-    });
-  </script>
   <script src="i18n.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
