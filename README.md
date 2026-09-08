@@ -60,6 +60,13 @@ Activate it on Windows:
 ```powershell
 .venv\Scripts\activate
 ```
+for mac :
+source .venv/bin/activate
+or princip (always on mac)
+
+cd /chemin/vers/CODE2IA
+source .venv/bin/activate
+python3 main.py
 
 Install the dependencies if a `requirements.txt` file is provided:
 
