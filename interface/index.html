@@ -28,7 +28,7 @@
     <main class="main">
       <header class="topbar">
         <div><span class="muted" data-i18n="ws">Workspace</span><span class="slash">/</span><strong data-i18n="app">Mon application</strong></div>
-        <div class="top-actions"><button class="icon-btn">⌕</button><button class="icon-btn">◐</button><button class="run-btn" data-i18n="launch">▶ Lancer</button></div>
+        <div class="top-actions"><button class="icon-btn" id="search-btn" title="Search">⌕</button><button class="icon-btn" id="theme-btn" title="Theme">◐</button><button class="run-btn" id="run-btn" data-i18n="launch">▶ Lancer</button></div>
       </header>
 
       <section class="hero">
@@ -40,19 +40,19 @@
       <section class="workspace-grid">
         <div class="panel chat-panel">
           <div class="panel-head"><div><strong data-i18n="assistant">Assistant IA</strong><small data-i18n="ready">Qwen · Prêt</small></div><span class="online-dot"></span></div>
-          <div class="messages">
+          <div class="messages" id="messages">
             <div class="message ai"><div class="mini-avatar">✦</div><div><strong>CODE2IA</strong><p data-i18n="hello">Salut 👋 Que veux-tu créer aujourd’hui ?</p></div></div>
             <div class="message user-message"><p data-i18n="userExample">Je veux créer une application moderne.</p></div>
             <div class="message ai"><div class="mini-avatar">✦</div><div><strong>CODE2IA</strong><p data-i18n="answer">Parfait. Je peux générer la structure, analyser tes fichiers et préparer ton projet.</p></div></div>
           </div>
-          <div class="prompt-box"><textarea data-i18n-placeholder="prompt" placeholder="Décris ton application..." rows="2"></textarea><div class="prompt-footer"><span data-i18n="attach">↗ Joindre un fichier</span><button class="send">➤</button></div></div>
+          <div class="prompt-box"><textarea id="prompt-input" data-i18n-placeholder="prompt" placeholder="Décris ton application..." rows="2"></textarea><div class="prompt-footer"><label for="file-input" data-i18n="attach" style="cursor:pointer">↗ Joindre un fichier</label><input id="file-input" type="file" hidden><button class="send" id="send-btn">➤</button></div></div>
         </div>
 
         <div class="panel preview-panel">
           <div class="panel-head"><div><strong data-i18n="preview">Aperçu</strong><small data-i18n="live">Live preview</small></div><div class="window-dots"><i></i><i></i><i></i></div></div>
           <div class="preview-screen">
-            <div class="mock-nav"><b>MON APP</b><span>Accueil&nbsp;&nbsp; Fonctionnalités&nbsp;&nbsp; À propos</span><button data-i18n="start">Commencer</button></div>
-            <div class="mock-content"><div class="mock-badge" data-i18n="powered">✦ POWERED BY CODE2IA</div><h2 data-i18n-mock-title>Construis<br>quelque chose<br><em>d’incroyable.</em></h2><p data-i18n="mockText">Ton application générée par l’IA apparaît ici en temps réel.</p><button class="mock-button" data-i18n="explore">Explorer →</button></div>
+            <div class="mock-nav"><b>MON APP</b><span>Accueil&nbsp;&nbsp; Fonctionnalités&nbsp;&nbsp; À propos</span><button id="start-btn" data-i18n="start">Commencer</button></div>
+            <div class="mock-content"><div class="mock-badge" data-i18n="powered">✦ POWERED BY CODE2IA</div><h2 data-i18n-mock-title>Construis<br>quelque chose<br><em>d’incroyable.</em></h2><p data-i18n="mockText">Ton application générée par l’IA apparaît ici en temps réel.</p><button class="mock-button" id="explore-btn" data-i18n="explore">Explorer →</button></div>
           </div>
         </div>
       </section>
@@ -63,6 +63,84 @@
       </section>
     </main>
   </div>
+
+  <script>
+    const messages = document.getElementById('messages');
+    const promptInput = document.getElementById('prompt-input');
+
+    function addMessage(text, type) {
+      const box = document.createElement('div');
+      box.className = 'message ' + (type === 'user' ? 'user-message' : 'ai');
+      if (type === 'user') {
+        box.innerHTML = '<p></p>';
+        box.querySelector('p').textContent = text;
+      } else {
+        box.innerHTML = '<div class="mini-avatar">✦</div><div><strong>CODE2IA</strong><p></p></div>';
+        box.querySelector('p').textContent = text;
+      }
+      messages.appendChild(box);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    document.getElementById('send-btn').addEventListener('click', () => {
+      const text = promptInput.value.trim();
+      if (!text) return;
+      addMessage(text, 'user');
+      promptInput.value = '';
+      setTimeout(() => addMessage('Je suis prêt à analyser ta demande. La connexion au moteur IA sera configurée à l’étape suivante.', 'ai'), 450);
+    });
+
+    promptInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        document.getElementById('send-btn').click();
+      }
+    });
+
+    document.getElementById('file-input').addEventListener('change', e => {
+      if (e.target.files[0]) addMessage('Fichier sélectionné : ' + e.target.files[0].name, 'user');
+    });
+
+    document.querySelector('.new-project').addEventListener('click', () => {
+      promptInput.value = '';
+      messages.innerHTML = '';
+      addMessage('Nouveau projet créé. Décris ce que tu veux construire.', 'ai');
+      document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
+      document.querySelector('.nav-item').classList.add('active');
+    });
+
+    document.querySelectorAll('.nav-item').forEach(item => item.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
+      item.classList.add('active');
+      const text = item.innerText.trim();
+      addMessage('Section « ' + text + ' » sélectionnée.', 'ai');
+    }));
+
+    document.getElementById('theme-btn').addEventListener('click', () => {
+      document.body.classList.toggle('light-mode');
+      localStorage.setItem('code2ia-theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+    });
+    if (localStorage.getItem('code2ia-theme') === 'light') document.body.classList.add('light-mode');
+
+    document.getElementById('search-btn').addEventListener('click', () => {
+      promptInput.focus();
+      promptInput.placeholder = 'Recherche / décris ton idée...';
+    });
+
+    document.getElementById('run-btn').addEventListener('click', () => {
+      addMessage('▶ Aperçu lancé. Le moteur de génération sera connecté dans la configuration IA.', 'ai');
+    });
+
+    document.getElementById('start-btn').addEventListener('click', () => {
+      document.querySelector('.preview-screen').scrollIntoView({behavior:'smooth', block:'center'});
+      addMessage('Aperçu de l’application lancé.', 'ai');
+    });
+
+    document.getElementById('explore-btn').addEventListener('click', () => {
+      addMessage('Exploration de l’aperçu ouverte.', 'ai');
+    });
+  </script>
   <script src="i18n.js"></script>
 </body>
 </html>
