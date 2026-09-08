@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CODE2IA — AI App Builder</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">✦</span><span>CODE2IA</span></div>
+      <button class="new-project">＋ Nouveau projet</button>
+      <nav>
+        <p class="nav-label">WORKSPACE</p>
+        <a class="nav-item active" href="#">⌂ <span>Accueil</span></a>
+        <a class="nav-item" href="#">▣ <span>Projets</span></a>
+        <a class="nav-item" href="#">◈ <span>Templates</span></a>
+        <a class="nav-item" href="#">⚙ <span>Paramètres</span></a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="status"><span></span> IA connectée</div>
+        <div class="user"><div class="avatar">C2</div><div><strong>CODE2IA</strong><small>Workspace</small></div></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div><span class="muted">Workspace</span><span class="slash">/</span><strong>Mon application</strong></div>
+        <div class="top-actions"><button class="icon-btn">⌕</button><button class="icon-btn">◐</button><button class="run-btn">▶ Lancer</button></div>
+      </header>
+
+      <section class="hero">
+        <div class="eyebrow">✦ AI APP BUILDER</div>
+        <h1>Crée ton application<br><span>avec l’IA.</span></h1>
+        <p>Décris ton idée, importe ton projet et laisse CODE2IA construire avec toi.</p>
+      </section>
+
+      <section class="workspace-grid">
+        <div class="panel chat-panel">
+          <div class="panel-head"><div><strong>Assistant IA</strong><small>Qwen · Prêt</small></div><span class="online-dot"></span></div>
+          <div class="messages">
+            <div class="message ai"><div class="mini-avatar">✦</div><div><strong>CODE2IA</strong><p>Salut 👋 Que veux-tu créer aujourd’hui ?</p></div></div>
+            <div class="message user-message"><p>Je veux créer une application moderne.</p></div>
+            <div class="message ai"><div class="mini-avatar">✦</div><div><strong>CODE2IA</strong><p>Parfait. Je peux générer la structure, analyser tes fichiers et préparer ton projet.</p></div></div>
+          </div>
+          <div class="prompt-box"><textarea placeholder="Décris ton application..." rows="2"></textarea><div class="prompt-footer"><span>↗ Joindre un fichier</span><button class="send">➤</button></div></div>
+        </div>
+
+        <div class="panel preview-panel">
+          <div class="panel-head"><div><strong>Aperçu</strong><small>Live preview</small></div><div class="window-dots"><i></i><i></i><i></i></div></div>
+          <div class="preview-screen">
+            <div class="mock-nav"><b>MON APP</b><span>Accueil&nbsp;&nbsp; Fonctionnalités&nbsp;&nbsp; À propos</span><button>Commencer</button></div>
+            <div class="mock-content"><div class="mock-badge">✦ POWERED BY CODE2IA</div><h2>Construis<br>quelque chose<br><em>d’incroyable.</em></h2><p>Ton application générée par l’IA apparaît ici en temps réel.</p><button class="mock-button">Explorer →</button></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bottom-grid">
+        <div class="panel files-panel"><div class="panel-head"><strong>Fichiers du projet</strong><span>3 fichiers</span></div><div class="file-row"><span>◇</span> index.html <small>12 KB</small></div><div class="file-row"><span>◇</span> style.css <small>8 KB</small></div><div class="file-row"><span>◇</span> app.js <small>5 KB</small></div></div>
+        <div class="panel analysis-panel"><div class="panel-head"><strong>Analyse IA</strong><span class="badge">Prêt</span></div><div class="analysis-line"><span>Langage</span><b>HTML / CSS / JS</b></div><div class="analysis-line"><span>Projet</span><b>Web Application</b></div><div class="analysis-line"><span>État</span><b class="success">✓ Aucun problème</b></div></div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
