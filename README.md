@@ -110,3 +110,4 @@ See the `LICENSE` file for more information.
 ---
 
 Made with ❤️ by **tabosoff-hue**
+contact request or for bug report : tabosoff@gmail.com
